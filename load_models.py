@@ -58,7 +58,7 @@ def get_image_classifier(classifier_name):
         if 'wideresnet-28-10' in classifier_name:
             print('using cifar10 wideresnet-28-10...')
             model_path = 'pretrained/clf/cifar10/Standard.pt'
-            model = load_model(model_name='Standard', dataset='cifar10', threat_model='Linf')  # pixel in [0, 1]
+            model = load_model(model_name='Standard', dataset='cifar10', threat_model='Linf', model_dir=model_path)  # pixel in [0, 1]
 
         elif 'wideresnet-70-16' in classifier_name:
             print('using cifar10 wideresnet-70-16...')
