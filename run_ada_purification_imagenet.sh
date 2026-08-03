@@ -4,8 +4,8 @@ export CUDA_HOME=/usr/local/cuda-11.8
 export PATH=$CUDA_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
-export PATH="mpich-install/bin:$PATH"
-export LD_LIBRARY_PATH="mpich-install/lib:$LD_LIBRARY_PATH"
+export PATH="/usr/local/mpich-4.1.2/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/mpich-4.1.2/lib:$LD_LIBRARY_PATH"
 
 # Linf Attacks
 python eval_sde_adv_antiodepure_noise.py \
