@@ -1,0 +1,46 @@
+data:
+    dataset: "ImageNet"
+    category: "imagenet"
+
+model:
+    attention_resolutions: '32,16,8'
+    class_cond: False
+    diffusion_steps: 1000
+    rescale_timesteps: True
+    timestep_respacing: '1000'  # Modify this value to decrease the number of timesteps.
+    image_size: 256
+    learn_sigma: True
+    noise_schedule: 'linear'
+    num_channels: 256
+    num_head_channels: 64
+    num_res_blocks: 2
+    resblock_updown: True
+    use_fp16: True
+    use_scale_shift_norm: True
+
+# model:
+#     # attention_resolutions: '32,16,8'
+#     class_cond: False
+#     diffusion_steps: 4000
+#     rescale_timesteps: True
+#     timestep_respacing: '1000'  # Modify this value to decrease the number of timesteps.
+#     image_size: 64
+#     learn_sigma: True
+#     noise_schedule: 'cosine'
+#     num_channels: 128
+#     # num_head_channels: 64
+#     num_res_blocks: 3
+#     # resblock_updown: True
+#     # use_fp16: True
+#     # use_scale_shift_norm: True
+
+sampling:
+    batch_size: 128
+    last_only: True
+
+# addition(为啥原本没有？)
+diffusion:
+    beta_schedule: linear
+    beta_start: 0.0001
+    beta_end: 0.02
+    num_diffusion_timesteps: 1000
