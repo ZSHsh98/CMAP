@@ -61,7 +61,7 @@ make install
 - **Consistency Model:** We adopt the pre-trained model released by [Consistency Models](https://github.com/openai/consistency_models_cifar10) on CIFAR-10, with only a conversion from the JAX implementation to the PyTorch version. While on ImageNet-100, we train the consistency model using [consistency training](https://github.com/openai/consistency_models).
 
 **Pre-trained Directory:** 
-All the aforementioned models should be organized under ./pretrained. The complete set of corresponding checkpoints is provided in [pretrained](https://drive.google.com/file/d/13qMbxEV0yF64mfDRBZGzeEJURJk-HRTa/view?usp=drive_link).
+All the aforementioned models should be organized under ./pretrained. The complete set of corresponding checkpoints is provided in [pretrained](https://drive.google.com/file/d/1toj2a2JYZmgZf4BLrK_qvlfEXbbvc70W/view?usp=drive_link).
 
 
 ## ▶️ Main Experiments 
