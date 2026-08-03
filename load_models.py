@@ -57,6 +57,7 @@ def get_image_classifier(classifier_name):
     elif 'cifar10' in classifier_name:
         if 'wideresnet-28-10' in classifier_name:
             print('using cifar10 wideresnet-28-10...')
+            model_path = 'pretrained/clf/cifar10/Standard.pt'
             model = load_model(model_name='Standard', dataset='cifar10', threat_model='Linf')  # pixel in [0, 1]
 
         elif 'wideresnet-70-16' in classifier_name:
@@ -64,7 +65,7 @@ def get_image_classifier(classifier_name):
             from robustbench.model_zoo.architectures.dm_wide_resnet import DMWideResNet, Swish
             model = DMWideResNet(num_classes=10, depth=70, width=16, activation_fn=Swish)  # pixel in [0, 1]
 
-            model_path = 'models/cifar10/Linf/weights-best.pt'
+            model_path = 'pretrained/clf/cifar10/weights-best.pt'
             print(f"=> loading wideresnet-70-16 checkpoint '{model_path}'")
             model.load_state_dict(update_state_dict(torch.load(model_path)['model_state_dict']))
             model.eval()
