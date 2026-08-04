@@ -52,7 +52,7 @@ def adversarial_generate(args, config):
     args.datapath = './dataset' if args.domain == 'cifar10' else '../imagenet100'
     loader = load_data(args, adv_batch_size)
 
-    adversarial_dir = '_'.join(['Adaptive_Attack_data_noise', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
+    adversarial_dir = '_'.join(['Adaptive_Attack_data', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
     os.makedirs(adversarial_dir, exist_ok=True)
 
     print('generating the adaptive adversarial data...')
@@ -202,7 +202,7 @@ def purify_optimize(args, config):
 
     # load data
     print('loading the adversarial data...')
-    adversarial_dir = '_'.join(['AntiODEPure_Attack_data_noise', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
+    adversarial_dir = '_'.join(['Adaptive_Attack_data', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
     data_path = adversarial_dir + '/' + '_'.join([args.lp_norm, str(args.epsilon), str(args.adv_factor), str(args.num_sub)]) + '.pkl'
 
     logger = utils.Logger(file_name=f'{adversarial_dir}/{args.lp_norm}_{str(args.epsilon)}_{str(args.adv_factor)}_{str(args.num_sub)}_purification.txt', file_mode="w+", should_flush=True)
