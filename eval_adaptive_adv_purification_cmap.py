@@ -177,9 +177,7 @@ def adversarial_generate(args, config):
 
 
 def purify_optimize(args, config):    
-    print('loading the consistency model...')
-    from utils import get_consistency_model
-    
+    print('loading the consistency model...')    
     if args.domain in ['cifar10']:
         model = get_consistency_model(args.domain)
         class_num = 10
