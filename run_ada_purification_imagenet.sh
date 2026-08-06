@@ -8,7 +8,7 @@ export PATH="/usr/local/mpich-4.1.2/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/mpich-4.1.2/lib:$LD_LIBRARY_PATH"
 
 # Linf Attacks
-python eval_sde_adv_antiodepure_noise.py \
+python eval_adaptive_adv_purification_cmap.py \
     --config "imagenet.yml" \
     --t 1000 \
     --epsilon 0.01569 \
@@ -27,7 +27,7 @@ python eval_sde_adv_antiodepure_noise.py \
     --gauss_factor 0.0002
 
 # L2 Attacks
-python eval_sde_adv_antiodepure_noise.py \
+python eval_adaptive_adv_purification_cmap.py \
     --config "imagenet.yml" \
     --t 1000 \
     --epsilon 0.5 \

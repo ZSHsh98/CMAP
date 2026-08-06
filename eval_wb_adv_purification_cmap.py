@@ -27,7 +27,7 @@ import pytorch_ssim
 def adversarial_generate(args, config):
     assert args.domain in ["cifar10", "imagenet100"]
 
-    adversarial_dir = '_'.join(['Adversarial_data_noise', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
+    adversarial_dir = '_'.join(['Whitebox_Attack_data', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
     os.makedirs(adversarial_dir, exist_ok=True)
 
     logger = utils.Logger(file_name=f'{adversarial_dir}/{args.attack_method}_{str(args.atk_t_cm)}_{str(args.epsilon)}_{str(args.num_sub)}_generation.txt', file_mode="w+", should_flush=True)
@@ -50,7 +50,7 @@ def adversarial_generate(args, config):
 
     # load data
     print('starting the dataloader...')
-    args.datapath = './dataset' if args.domain == 'cifar10' else '/home/student.unimelb.edu.au/jiahaoyang/IMIA/add_storage_500/imagenet100'
+    args.datapath = './dataset' if args.domain == 'cifar10' else '../imagenet100'
     loader = load_data(args, adv_batch_size)
     
     if config.data.dataset == 'CIFAR10':
@@ -149,7 +149,7 @@ def purify_optimize(args, config):
     print('loading the classifier...')
     classifier = get_image_classifier(args.classifier_name).to(config.device)
 
-    adversarial_dir = '_'.join(['Adversarial_data_noise', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
+    adversarial_dir = '_'.join(['Whitebox_Attack_data', args.classifier_name, 'seed' + str(args.seed), 'data' + str(args.data_seed)])
     data_path = adversarial_dir + '/' + '_'.join([args.attack_method, str(args.atk_t_cm), str(args.epsilon), str(args.num_sub)]) + '.pkl'
     logger = utils.Logger(file_name=f'{adversarial_dir}/{args.attack_method}_{str(args.atk_t_cm)}_{str(args.epsilon)}_{str(args.num_sub)}_purification.txt', file_mode="w+", should_flush=True)
 
@@ -261,13 +261,6 @@ def purify_optimize(args, config):
         x_pur_list.append(X_pur_k_samples[0].detach().cpu())
         
     end_time = time.time()
-
-    Z = dict(Z_mean = Z_mean_all, Z_std = Z_std_all)
-
-    # out_dir = f'Plot_Z/CIFAR10_{args.similar_factor}_{args.gauss_factor}'
-    # os.makedirs(out_dir, exist_ok=True)
-    # with open(os.path.join(out_dir, f'Z_curve.pkl'), 'wb') as f:
-    #     pickle.dump(Z, f)
 
     all_x_pur = torch.cat(x_pur_list, dim=0).cpu()
     print(all_x_pur.shape)

@@ -10,7 +10,7 @@ python eval_adaptive_adv_purification_cmap.py \
     --t 1000 \
     --epsilon 0.03137 \
     --lr 2 \
-    --adv_batch_size 10 \
+    --adv_batch_size 5 \
     --num_sub 500 \
     --domain "cifar10" \
     --classifier_name "cifar10-wideresnet-28-10" \
@@ -29,7 +29,7 @@ python eval_adaptive_adv_purification_cmap.py \
     --t 1000 \
     --epsilon 0.5 \
     --lr 2 \
-    --adv_batch_size 10 \
+    --adv_batch_size 5 \
     --num_sub 500 \
     --domain "cifar10" \
     --classifier_name "cifar10-wideresnet-28-10" \

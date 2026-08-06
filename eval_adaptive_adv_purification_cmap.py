@@ -180,12 +180,12 @@ def purify_optimize(args, config):
     print('loading the consistency model...')    
     if args.domain in ['cifar10']:
         model = get_consistency_model(args.domain)
-        class_num = 10
+        args.class_num = 10
         pur_iteration = 200
     elif args.domain in ['imagenet100']:
         model, diffusion = get_consistency_model(args.domain)
-        class_num = 100
-        pur_iteration = 400
+        args.class_num = 100
+        pur_iteration = 300
 
     # if torch.cuda.device_count() > 1:
     # 	model = nn.DataParallel(model)
@@ -213,8 +213,6 @@ def purify_optimize(args, config):
     adversarial_loader = load_adversarial_data(adversarial_data['X_adv'].detach(), adversarial_data['y'].detach(), adv_batch_size)
 
     batch_num_list = []
-    puradv_acc_soft_list = []
-    puradv_acc_hard_list = []
     pur_acc_soft_list = []
     pur_acc_hard_list = []
     
@@ -239,7 +237,7 @@ def purify_optimize(args, config):
         loss_func2 = torch.nn.MSELoss(reduction='sum')
         for iter in tqdm(range(pur_iteration), desc=f'Purification of batch {i+1}(/{math.ceil(args.num_sub/args.adv_batch_size)})', position=0):
             # generate the X_pur
-            X_adv_k_samples = X_adv_k_samples.detach().clone()
+            X_diff_k_samples = X_adv_k_samples*2-1
             with torch.enable_grad():
                 X_pur_k_samples = torch.empty((X_init.shape)).to(config.device)
                 # outputs = torch.empty((target.shape)).to(config.device)
@@ -253,7 +251,7 @@ def purify_optimize(args, config):
                     X_pur_flat = purify_imagenet(X_init_flat, model, diffusion, 80, config.device)
 
                 X_pur_k_samples = X_pur_flat.reshape(K, bs, c, h, w)
-                X_diff_flat = X_adv_k_samples.reshape(K * bs, c, h, w)
+                X_diff_flat = X_diff_k_samples.reshape(K * bs, c, h, w)
 
                 ssim_loss = ssim_loss - pytorch_ssim.ssim((X_pur_flat + 1) * 0.5, (X_diff_flat + 1) * 0.5, batch_sum=True)
 
@@ -272,18 +270,12 @@ def purify_optimize(args, config):
         
     end_time = time.time()
 
-    puradv_acc_soft_avg = 0.
-    puradv_acc_hard_avg = 0.
     pur_acc_soft_avg = 0.
     pur_acc_hard_avg = 0.
     for n in range(len(batch_num_list)):
-        puradv_acc_soft_avg += batch_num_list[n] * puradv_acc_soft_list[n]
-        puradv_acc_hard_avg += batch_num_list[n] * puradv_acc_hard_list[n]
         pur_acc_soft_avg += batch_num_list[n] * pur_acc_soft_list[n]
         pur_acc_hard_avg += batch_num_list[n] * pur_acc_hard_list[n]
     print(f'batch_num: {batch_num_list}')
-    print(f'puradv_acc_soft: {puradv_acc_soft_list}; \tpuradv_acc_soft_avg: {puradv_acc_soft_avg / args.num_sub}')
-    print(f'puradv_acc_hard: {puradv_acc_hard_list}; \tpuradv_acc_hard_avg: {puradv_acc_hard_avg / args.num_sub}')
     print(f'pur_acc_soft: {pur_acc_soft_list}; \tpur_acc_soft_avg: {pur_acc_soft_avg / args.num_sub}')
     print(f'pur_acc_hard: {pur_acc_hard_list}; \tpur_acc_hard_avg: {pur_acc_hard_avg / args.num_sub}')
 
